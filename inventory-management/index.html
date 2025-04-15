@@ -1,0 +1,109 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Manajemen Inventori</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-center text-3xl font-extrabold text-gray-800 mb-8 tracking-tight">
+            Sistem Manajemen Inventori
+        </h1>
+        
+        <!-- Form Section -->
+        <div class="bg-white p-6 rounded-xl shadow-lg mx-auto max-w-xl transform hover:scale-[1.02] transition-all duration-300">
+            <form id="productForm" class="space-y-5">
+                <div>
+                    <input 
+                        type="text" 
+                        id="productName" 
+                        placeholder="Nama Produk" 
+                        class="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 bg-gray-50 text-gray-700"
+                        required
+                    >
+                </div>
+                <div>
+                    <input 
+                        type="number" 
+                        id="productQuantity" 
+                        placeholder="Jumlah" 
+                        class="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 bg-gray-50 text-gray-700"
+                        required
+                    >
+                </div>
+                <div class="flex gap-4">
+                    <input 
+                        type="number" 
+                        id="productPrice" 
+                        placeholder="Harga" 
+                        class="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 bg-gray-50 text-gray-700"
+                        required
+                    >
+                    <button 
+                        type="submit" 
+                        class="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-300 transition-all duration-200 font-medium"
+                    >
+                        Tambah Produk
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Table Section -->
+        <div class="mt-12">
+            <h2 class="text-center text-2xl font-bold text-gray-800 mb-6">Daftar Produk</h2>
+            <div class="overflow-x-auto shadow-lg rounded-xl">
+                <table class="min-w-full bg-white border border-gray-200">
+                    <thead class="bg-indigo-600 text-white">
+                        <tr>
+                            <th class="py-3 px-6 text-left font-semibold">ID</th>
+                            <th class="py-3 px-6 text-left font-semibold">Nama Produk</th>
+                            <th class="py-3 px-6 text-left font-semibold">Jumlah</th>
+                            <th class="py-3 px-6 text-left font-semibold">Harga</th>
+                            <th class="py-3 px-6 text-left font-semibold">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productTableBody" class="text-gray-700">
+                        <!-- Add product rows here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let productId = 1;
+
+        document.getElementById('productForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const productName = document.getElementById('productName').value;
+            const productQuantity = document.getElementById('productQuantity').value;
+            const productPrice = document.getElementById('productPrice').value;
+
+            const tableBody = document.getElementById('productTableBody');
+            const newRow = document.createElement('tr');
+            newRow.className = "hover:bg-gray-50 transition-colors duration-150";
+
+            newRow.innerHTML = `
+                <td class="py-4 px-6 border-b">${productId++}</td>
+                <td class="py-4 px-6 border-b">${productName}</td>
+                <td class="py-4 px-6 border-b">${productQuantity}</td>
+                <td class="py-4 px-6 border-b">Rp ${Number(productPrice).toLocaleString()}</td>
+                <td class="py-4 px-6 border-b">
+                    <button class="bg-red-600 text-white px-3 py-1 rounded-lg hover:bg-red-700 focus:ring-2 focus:ring-red-300 transition-all duration-200" onclick="deleteRow(this)">Hapus</button>
+                </td>
+            `;
+
+            tableBody.appendChild(newRow);
+            document.getElementById('productForm').reset();
+        });
+
+        function deleteRow(button) {
+            const row = button.parentElement.parentElement;
+            row.remove();
+        }
+    </script>
+</body>
+</html>
